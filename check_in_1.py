@@ -3,6 +3,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import webbrowser
+from playsound import playsound
+
 class Tarot:
     def __init__(self):
         """
@@ -132,6 +134,9 @@ class Music:
         Returns:
             plays the music of the song that was generated. 
         """
+        song_play = playsound(self.sound)
+        return song_play
+        
         
 
 class Number:
