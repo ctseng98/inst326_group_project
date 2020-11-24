@@ -127,6 +127,12 @@ class Music:
         Returns:
             song title (str): the song title of the corrsponding url.
         """
+    def play_song(self)
+        """ automatically plays the song
+        Returns:
+            plays the music of the song that was generated. 
+        """
+        
 
 class Number:
     """This class takes care of the translation from input digits o corrsponding tarot card."""
