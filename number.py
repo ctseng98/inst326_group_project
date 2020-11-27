@@ -2,6 +2,11 @@ import sys
 import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
+
+matplotlib.use("MacOSX")
+plt.ion()
+matplotlib.rcParams["interactive"] == True
+import random
 from collections import Counter
 from argparse import ArgumentParser
 
@@ -15,10 +20,14 @@ class Number:
         """
         if number != 0:
             self.number = int(number)
+            self.sentence = sentence
         else:
             self.sentence = sentence.lower()
+            self.number = number
         self.modulus_count = Counter()
         self.alphabet_array = np.array([])
+        self.alphabet_count = Counter()
+        # print(self.sentence)
 
     def translator(self, number=0):
         """This method takes the 4 digit number and generates a corresponding number that hashes to a particular tarot card.
@@ -29,8 +38,13 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        trans = self.number % 78
-        self.modulus_count({trans: 1})
+        if number == 0:
+            trans = self.number % 78
+        else:
+            trans = number % 78
+        # print(number)
+        # trans = number % 78
+        self.modulus_count.update([trans])
         return trans
 
     def generator(self):
@@ -40,15 +54,13 @@ class Number:
         Returns:
             A string of integers.
         """
-
-        tem = [i for i in self.sentence]
-
-        alphabet_count = Counter(tem)
-        output = translator(alphabet_count.most_common())
-        print(tem)
-        print(alphabet_count)
-        self.alphabet_array(tem)
-        return output
+        # print(type(self.modulus_count))
+        tem = [i for i in self.sentence if i != " "]
+        # print(tem)
+        self.alphabet_count.update(tem)
+        most_com = self.alphabet_count.most_common(1)[0][0]
+        output = self.translator(random.randint(1, 300) * ord(most_com))
+        return int(output)
 
     def stat(self):
         """Returns the stat of previous users.
@@ -57,15 +69,22 @@ class Number:
         Returns:
             A histogram (?)
         """
-        names = np.array(self.modulus_count.keys())
-        freq = np.array(self.modulus_count.values())
-        print(names)
-        print(freq)
-        plt.bar(names, freq)
-        plt.xticks(self.modulus_count.keys())
-        plt.yticks(self.modulus_count.values())
+        self.generator()
+        # print(self.alphabet_count)
+        letters = np.array([i for i in self.alphabet_count.keys()])
+        freq = np.array([i for i in self.alphabet_count.values()])
+        x_bin = len(letters)
+        # print(letters)
+        # print(freq)
+        f, ax = plt.subplots()
+        plt.bar(letters, freq)
+        plt.xticks(letters)
+        plt.yticks(freq)
         plt.xlabel("Letters")
         plt.ylabel("Frequency")
+        ax.set_xticks(range(0, x_bin))
+        ax.set_xticklabels(letters)
+        plt.savefig("figure.png")
         plt.show()
 
 
@@ -96,4 +115,5 @@ if __name__ == "__main__":
     if args.number:
         Number(number=args.number)
     elif args.sentence:
-        Number(sentence=args.sentence)
+        result = Number(sentence=args.sentence)
+    result.stat()
