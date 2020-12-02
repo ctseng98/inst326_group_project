@@ -25,12 +25,18 @@ class Tarot:
         self.number = number
         select_card = self.tarot.iloc[self.number].to_dict()
 
-        # return print(f"{select_card.Name} \n--- Death Card: {select_card.Desc}\n--- Reversed Death Card: {select_card.Rdesc}")
+        
         return select_card
 
     def image(self, number):
+        """Pairs the number from Number class to a corresponding tarot card and lead to a link displying the card image
+        Args:
+            number (int): the integer output from translator() in Number class.
+        Returns:
+            
+        """
         self.number = number
-        # self.name=pairing(number).get('Name')
+        
         name = pairing(self.number).get("Name")
         url = pairing(self.number).get("Url")
         if name.startswith("The"):
@@ -99,6 +105,12 @@ class Tarot:
             )
 
     def num(self, label):
+        """Pairs the label of tarots card and return the corresponding number
+        Args:
+            label (str): the label of tarots card
+        Returns:
+            corresponding number
+        """
         self.label = label
         if label == "Ace":
             return 1
