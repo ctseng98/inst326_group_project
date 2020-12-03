@@ -11,21 +11,45 @@ class Music:
         Args:
             urls (set): A set of urls that links to a YouTube music video.    
         """
+        self.url = url
+        self.feed = feedparser.parse(url)
+        
         pass
-    def url_generator(self, number):
-        """Generates a YouTube link corrspoding to the tarod card number.
-        Args:
-            number (int): the integer output from translator() in Number class.
+    
+    def get_links(self):
+        """Returns a list of tuples of the title and url if have type audio
         Returns:
-            song title (str): the song title of the corrsponding url.
+            A list of tuples.
         """
-    def play_song(self)
-        """ automatically plays the song
+        output = []
+        for i in self.feed.entries:
+            tem = [(i.title, j["href"]) for j in i.links if i.title not in output]
+            output.append(tem[0])
+        return output
+    
+    def play(self)
+        """ automatically plays the youtube video
         Returns:
-            plays the music of the song that was generated. 
+            plays youtube video that was generated. 
         """
-        song_play = playsound(self.sound)
-        return song_play
+        play_video = playsound(self.sound)
+        return play_video
+
+def main(url):
+    """ Extract titles and links from an RSS feed. """
+    fw = Music(url)
+    l = fw.get_links()
+    for title, link in fw.get_links():
+        print(f"{title} | {link}")
         
-        
+def parse_args(arglist):
+""" Parse command-line arguments. """
+    parser = ArgumentParser()
+    parser.add_argument("url", help="url of the RSS feed of a podcast")
+    return parser.parse_args(arglist)
+
+
+if __name__ == "__main__":
+    args = parse_args(sys.argv[1:])
+    main(args.url) 
 
