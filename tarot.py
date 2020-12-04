@@ -23,7 +23,7 @@ class Tarot:
         Args:
             number (int): the integer output from translator() in Number class.
         Returns:
-            A tarot card.
+            A tarot card (str).
         """
 
         select_card = self.tarot.iloc[number].to_dict()

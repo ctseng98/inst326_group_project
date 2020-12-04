@@ -15,9 +15,10 @@ matplotlib.rcParams["interactive"] == True
 import random
 from collections import Counter
 from argparse import ArgumentParser
-
+import vlc
 
 from tarot import Tarot
+from music import Music
 
 
 class Number:
@@ -28,8 +29,9 @@ class Number:
         modulus_stat (dict): A set that counts how many people got the same number from method translator()
         """
         if number != -1:
-            self.number = int(number)
+            self.number = number
             self.sentence = sentence
+            self.boo = 0
         else:
             self.sentence = sentence.lower()
             self.number = number
@@ -49,8 +51,8 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        trans = number % 78
-        if self.boo == -1:
+        trans = int(number) % 78
+        if self.boo == 0:
             t = np.linspace(0, 2 * math.pi, 400)
             x = 16 * (np.sin(t) ** 3)
             y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
@@ -159,11 +161,22 @@ if __name__ == "__main__":
     if args.number != -1:
         result_1 = Number(number=args.number)
         # print(result_1.translator())
-        t_1 = Tarot(number=result_1.translator())
-        t_1.image(number=result_1.translator())
-        result_1.translator()
+        translated_num = result_1.translator(number=args.number)
+        t_1 = Tarot(number=translated_num)
+        t_1.image(number=translated_num)
+
+        music = Music(
+            url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
+            tarot=translated_num % 15,
+        )
     else:
         result_2 = Number(sentence=args.sentence)
-        t_2 = Tarot(number=result_2.generator())
-        t_2.image(number=result_2.generator())
+        generated_num = result_2.generator()
+        t_2 = Tarot(number=generated_num)
+        t_2.image(number=generated_num)
         result_2.stat()
+        music = Music(
+            url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
+            tarot_num=generated_num % 15,
+        )
+    music.play()
