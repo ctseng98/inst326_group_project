@@ -16,9 +16,10 @@ class Tarot:
             tarot (set): A dictionary with the name of each tarot card as values.
         """
         self.tarot = pd.read_csv("T.csv")
-        self.number = number
+        self.number=number
+        
 
-    def pairing(self):
+    def pairing(self,number):
         """Pairs the number from Number class to a corresponding tarot card
         Args:
             number (int): the integer output from translator() in Number class.
@@ -26,20 +27,21 @@ class Tarot:
             A tarot card.
         """
 
-        select_card = self.tarot.iloc[self.number].to_dict()
+        select_card = self.tarot.iloc[number].to_dict()
 
         return select_card
 
-    def image(self):
+    def image(self,number):
         """Pairs the number from Number class to a corresponding tarot card and lead to a link displying the card image
         Args:
             number (int): the integer output from translator() in Number class.
         Returns:
 
         """
+        
 
-        name = self.pairing(self.number).get("Name")
-        url = self.pairing(self.number).get("Url")
+        name = self.pairing(number).get("Name")
+        url = self.pairing(number).get("Url")
         if name.startswith("The"):
 
             html = urlopen(url)
