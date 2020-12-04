@@ -56,57 +56,57 @@ class Tarot:
             images = bs.find_all("img", {"src": re.compile("/tarot-wands-")})
             for image in images:
                 url.append(image["src"])
-            first_word = name.endswith("Wands").split()[0]
+            first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(url[int(corrspoding_num) - 1],new=2)
+            webbrowser.open(url[int(corrspoding_num) - 3],new=2)
 
         elif name.endswith("Swords"):
             url = list()
             html = urlopen(
-                "https://www.tarotcardmeanings.net/minorarcana/tarot-wands.htm"
+                "https://www.tarotcardmeanings.net/minorarcana/tarot-swords.htm"
             )
             bs = BeautifulSoup(html, "html.parser")
             images = bs.find_all("img", {"src": re.compile("/tarot-swords-")})
             for image in images:
                 url.append(image["src"])
-            first_word = name.endswith("Swords").split()[0]
+            first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],new=2
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
             )
 
         elif name.endswith("Cups"):
             url = list()
             html = urlopen(
-                "https://www.tarotcardmeanings.net/minorarcana/tarot-wands.htm"
+                "https://www.tarotcardmeanings.net/minorarcana/tarot-cups.htm"
             )
             bs = BeautifulSoup(html, "html.parser")
             images = bs.find_all("img", {"src": re.compile("/tarot-cups-")})
             for image in images:
                 url.append(image["src"])
-            first_word = name.endswith("Cups").split()[0]
+            first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],new=2
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
             )
 
         elif name.endswith("Pentacles"):
             url = list()
             html = urlopen(
-                "https://www.tarotcardmeanings.net/minorarcana/tarot-wands.htm"
+                "https://www.tarotcardmeanings.net/minorarcana/tarot-pentacles.htm"
             )
             bs = BeautifulSoup(html, "html.parser")
             images = bs.find_all("img", {"src": re.compile("/tarot-pentacles-")})
             for image in images:
                 url.append(image["src"])
-            first_word = name.endswith("Pentacles").split()[0]
+            first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],new=2
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
             )
 
     def num(self, label):
-        """Pairs the label of tarots card and return the corresponding number
+        """Pairs the label of tarots card from the csv file and return the corresponding number
         Args:
             label (str): the label of tarots card
         Returns:
