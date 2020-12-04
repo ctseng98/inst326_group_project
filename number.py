@@ -9,13 +9,10 @@ from bs4 import BeautifulSoup
 import webbrowser
 import re
 
-matplotlib.use("MacOSX")
-plt.ion()
-matplotlib.rcParams["interactive"] == True
 import random
 from collections import Counter
 from argparse import ArgumentParser
-import vlc
+
 
 from tarot import Tarot
 from music import Music
@@ -71,10 +68,10 @@ class Number:
 
             ells = [
                 Ellipse(
-                    xy=np.random.rand(2) * 10 * trans,
+                    xy=np.random.rand(2) * (100 % trans),
                     width=np.random.rand(),
                     height=np.random.rand(),
-                    angle=np.random.rand() * 50 * trans,
+                    angle=np.random.rand() * (360 % trans),
                 )
                 for i in range(NUM)
             ]
@@ -177,6 +174,6 @@ if __name__ == "__main__":
         result_2.stat()
         music = Music(
             url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
-            tarot_num=generated_num % 15,
+            tarot=generated_num % 15,
         )
     music.play()

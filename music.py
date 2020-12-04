@@ -3,11 +3,10 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import webbrowser
-from IPython.display import Audio
+
 from argparse import ArgumentParser
 import sys
 import feedparser
-import vlc
 
 
 class Music:
