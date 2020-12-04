@@ -88,7 +88,7 @@ class Number:
             A string of integers.
         """
         # print(type(self.modulus_count))
-        tem = [i for i in self.sentence if i != " "]
+        tem = [i for i in self.sentence if i != " " and i.isalpha()]
         # print(tem)
         self.alphabet_count.update(tem)
         most_com = self.alphabet_count.most_common(1)[0][0]
