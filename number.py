@@ -55,7 +55,7 @@ class Number:
             y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
             plt.plot(x, y)
             plt.savefig("figure_digit.png")
-            plt.show()
+            # plt.show()
         else:
 
             # print(number)
@@ -86,7 +86,7 @@ class Number:
             ax.set_xlim(0, 10)
             ax.set_ylim(0, 10)
             plt.savefig("figure_digit.png")
-            plt.show()
+            # plt.show()
         return trans
 
     def generator(self):
@@ -128,7 +128,7 @@ class Number:
         ax.set_xticks(range(0, x_bin))
         ax.set_xticklabels(letters)
         plt.savefig("figure_sentence.png")
-        plt.show()
+        # plt.show()
 
 
 def parse_args(arglist):
