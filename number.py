@@ -4,6 +4,10 @@ import numpy as np
 from numpy import *
 import matplotlib.pyplot as plt
 import math
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import webbrowser
+import re
 
 matplotlib.use("MacOSX")
 plt.ion()
@@ -34,7 +38,7 @@ class Number:
         self.alphabet_count = Counter()
         # print(self.sentence)
 
-    def translator(self):
+    def translator(self, number):
         """This method takes the 4 digit number and generates a corresponding number that hashes to a particular tarot card.
         Args:
             number (str): the number that the user inputs
@@ -44,11 +48,11 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        trans = self.number % 78
+        trans = number % 78
         # print(number)
         # trans = number % 78
         self.modulus_count.update([trans])
-        self.number = trans
+
         from matplotlib.patches import Ellipse
 
         NUM = 250
@@ -72,9 +76,9 @@ class Number:
 
         ax.set_xlim(0, 10)
         ax.set_ylim(0, 10)
-        plt.savefig("figure.png")
+        plt.savefig("figure_digit.png")
         plt.show()
-        return self.number
+        return trans
 
     def generator(self):
         """Generates a random 4 digit number based on the sentence that the user put in. (Use regex)
@@ -89,9 +93,8 @@ class Number:
         self.alphabet_count.update(tem)
         most_com = self.alphabet_count.most_common(1)[0][0]
         output = self.translator(random.randint(1, 300) * ord(most_com))
-        self.number = int(output)
 
-        return self.number
+        return int(output)
 
     def stat(self):
         """Returns the stat of previous users.
@@ -115,7 +118,7 @@ class Number:
         plt.ylabel("Frequency")
         ax.set_xticks(range(0, x_bin))
         ax.set_xticklabels(letters)
-        plt.savefig("figure.png")
+        plt.savefig("figure_sentence.png")
         plt.show()
 
 
@@ -143,14 +146,14 @@ def parse_args(arglist):
 
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
-    if args.number:
+    if args.number != -1:
         result_1 = Number(number=args.number)
         # print(result_1.translator())
         t_1 = Tarot(number=result_1.translator())
-        t_1.image()
+        t_1.image(number=result_1.translator())
         result_1.translator()
-    elif args.sentence:
+    else:
         result_2 = Number(sentence=args.sentence)
         t_2 = Tarot(number=result_2.generator())
-        t_2.image()
+        t_2.image(number=result_2.generator())
         result_2.stat()
