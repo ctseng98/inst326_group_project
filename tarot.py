@@ -58,7 +58,7 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.endswith("Wands").split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(url[int(corrspoding_num) - 1])
+            webbrowser.open(url[int(corrspoding_num) - 1],new=2)
 
         elif name.endswith("Swords"):
             url = list()
@@ -72,7 +72,7 @@ class Tarot:
             first_word = name.endswith("Swords").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1,new=2]
             )
 
         elif name.endswith("Cups"):
@@ -87,7 +87,7 @@ class Tarot:
             first_word = name.endswith("Cups").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1,new=2]
             )
 
         elif name.endswith("Pentacles"):
@@ -102,7 +102,7 @@ class Tarot:
             first_word = name.endswith("Pentacles").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1,new=2]
             )
 
     def num(self, label):
