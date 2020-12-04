@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import webbrowser
 import sys
-from playsound import playsound
+
 from argparse import ArgumentParser
 
 class Tarot:
@@ -42,11 +42,11 @@ class Tarot:
         url = self.pairing(self.number).get("Url")
         if name.startswith("The"):
 
-            html = urlopen("{url}")
+            html = urlopen(url)
             bs = BeautifulSoup(html, "html.parser")
             images = bs.find("img", {"src": re.compile("/images/tarotcards/")})
             new_url = images["src"]
-            webbrowser.open(f"https://www.tarotcardmeanings.net{new_url}")
+            webbrowser.open(f"https://www.tarotcardmeanings.net{new_url}",new=2)
         elif name.endswith("Wands"):
             url = list()
             html = urlopen(
