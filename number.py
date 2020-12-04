@@ -33,6 +33,7 @@ class Number:
         else:
             self.sentence = sentence.lower()
             self.number = number
+            self.boo = -1  # keep track of sentence or digit input
         self.modulus_count = Counter()
         self.alphabet_array = np.array([])
         self.alphabet_count = Counter()
@@ -49,35 +50,44 @@ class Number:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
         trans = number % 78
-        # print(number)
-        # trans = number % 78
-        self.modulus_count.update([trans])
+        if self.boo == -1:
+            t = np.linspace(0, 2 * math.pi, 400)
+            x = 16 * (np.sin(t) ** 3)
+            y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
+            plt.plot(x, y)
+            plt.savefig("figure_digit.png")
+            plt.show()
+        else:
 
-        from matplotlib.patches import Ellipse
+            # print(number)
+            # trans = number % 78
+            self.modulus_count.update([trans])
 
-        NUM = 250
+            from matplotlib.patches import Ellipse
 
-        ells = [
-            Ellipse(
-                xy=np.random.rand(2) * 10 * trans,
-                width=np.random.rand(),
-                height=np.random.rand(),
-                angle=np.random.rand() * 50 * trans,
-            )
-            for i in range(NUM)
-        ]
+            NUM = 250
 
-        fig, ax = plt.subplots(subplot_kw={"aspect": "equal"})
-        for e in ells:
-            ax.add_artist(e)
-            e.set_clip_box(ax.bbox)
-            e.set_alpha(np.random.rand())
-            e.set_facecolor(np.random.rand(3))
+            ells = [
+                Ellipse(
+                    xy=np.random.rand(2) * 10 * trans,
+                    width=np.random.rand(),
+                    height=np.random.rand(),
+                    angle=np.random.rand() * 50 * trans,
+                )
+                for i in range(NUM)
+            ]
 
-        ax.set_xlim(0, 10)
-        ax.set_ylim(0, 10)
-        plt.savefig("figure_digit.png")
-        plt.show()
+            fig, ax = plt.subplots(subplot_kw={"aspect": "equal"})
+            for e in ells:
+                ax.add_artist(e)
+                e.set_clip_box(ax.bbox)
+                e.set_alpha(np.random.rand())
+                e.set_facecolor(np.random.rand(3))
+
+            ax.set_xlim(0, 10)
+            ax.set_ylim(0, 10)
+            plt.savefig("figure_digit.png")
+            plt.show()
         return trans
 
     def generator(self):
