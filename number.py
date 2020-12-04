@@ -40,6 +40,7 @@ class Number:
             number (str): the number that the user inputs
         Returns:
             An integer that links to a tarot card.
+            A png file of a pattern that is created by the input 4-digit number.
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
@@ -54,10 +55,10 @@ class Number:
 
         ells = [
             Ellipse(
-                xy=np.random.rand(2) * trans,
+                xy=np.random.rand(2) * 10 * trans,
                 width=np.random.rand(),
                 height=np.random.rand(),
-                angle=np.random.rand() * trans,
+                angle=np.random.rand() * 50 * trans,
             )
             for i in range(NUM)
         ]
@@ -144,9 +145,12 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     if args.number:
         result_1 = Number(number=args.number)
-        Tarot(result_1.translator())
+        # print(result_1.translator())
+        t_1 = Tarot(number=result_1.translator())
+        t_1.image()
         result_1.translator()
     elif args.sentence:
         result_2 = Number(sentence=args.sentence)
-        Tarot(result_2.generator())
+        t_2 = Tarot(number=result_2.generator())
+        t_2.image()
         result_2.stat()
