@@ -3,8 +3,9 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import webbrowser
+import sys
 from playsound import playsound
-
+from argparse import ArgumentParser
 
 class Tarot:
     def __init__(self):
@@ -140,3 +141,4 @@ class Tarot:
             return 13
         elif label == "King":
             return 14
+
