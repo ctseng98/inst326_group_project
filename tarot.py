@@ -79,10 +79,7 @@ class Tarot:
 <<<<<<< HEAD
                 "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
 =======
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
-                new=2,
->>>>>>> 9a8bed8dbace139f14a4cb6382bd7e08c55067ed
-            )
+                
 
         elif name.endswith("Cups"):
             url = list()
