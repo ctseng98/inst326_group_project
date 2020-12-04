@@ -12,7 +12,8 @@ import random
 from collections import Counter
 from argparse import ArgumentParser
 
-# from tarot import Tarot
+
+from tarot import Tarot
 
 
 class Number:
@@ -47,11 +48,29 @@ class Number:
         # trans = number % 78
         self.modulus_count.update([trans])
         self.number = trans
-        t = linspace(0, 2 * math.pi, 400)
-        a = 16 * (sin(t) ** 3)
-        b = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t)
-        plt.plot(t, a, "r")  # plotting t, a separately
-        plt.plot(t, b, "r")  # plotting t, b separately
+        from matplotlib.patches import Ellipse
+
+        NUM = 250
+
+        ells = [
+            Ellipse(
+                xy=np.random.rand(2) * trans,
+                width=np.random.rand(),
+                height=np.random.rand(),
+                angle=np.random.rand() * trans,
+            )
+            for i in range(NUM)
+        ]
+
+        fig, ax = plt.subplots(subplot_kw={"aspect": "equal"})
+        for e in ells:
+            ax.add_artist(e)
+            e.set_clip_box(ax.bbox)
+            e.set_alpha(np.random.rand())
+            e.set_facecolor(np.random.rand(3))
+
+        ax.set_xlim(0, 10)
+        ax.set_ylim(0, 10)
         plt.savefig("figure.png")
         plt.show()
         return self.number
@@ -125,9 +144,9 @@ if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     if args.number:
         result_1 = Number(number=args.number)
-        # Tarot(result_1.translator())
+        Tarot(result_1.translator())
         result_1.translator()
     elif args.sentence:
         result_2 = Number(sentence=args.sentence)
-        # Tarot(result_2.generator())
+        Tarot(result_2.generator())
         result_2.stat()

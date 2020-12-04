@@ -3,49 +3,50 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
 import webbrowser
-from playsound import playsound
+import sys
+
+from argparse import ArgumentParser
 
 
 class Tarot:
-    def __init__(self):
+    def __init__(self, number):
         """
         Initializes a set tarot cards by reading a csv file that contains a list of tarot cards.
         Args:
             tarot (set): A dictionary with the name of each tarot card as values.
         """
         self.tarot = pd.read_csv("T.csv")
+        self.number = number
 
-    def pairing(self, number):
+    def pairing(self):
         """Pairs the number from Number class to a corresponding tarot card
         Args:
             number (int): the integer output from translator() in Number class.
         Returns:
             A tarot card.
         """
-        self.number = number
+
         select_card = self.tarot.iloc[self.number].to_dict()
 
-        
         return select_card
 
-    def image(self, number):
+    def image(self):
         """Pairs the number from Number class to a corresponding tarot card and lead to a link displying the card image
         Args:
             number (int): the integer output from translator() in Number class.
         Returns:
-            
+
         """
-        self.number = number
-        
+
         name = self.pairing(self.number).get("Name")
         url = self.pairing(self.number).get("Url")
         if name.startswith("The"):
 
-            html = urlopen("{url}")
+            html = urlopen(url)
             bs = BeautifulSoup(html, "html.parser")
             images = bs.find("img", {"src": re.compile("/images/tarotcards/")})
             new_url = images["src"]
-            webbrowser.open(f"https://www.tarotcardmeanings.net{new_url}")
+            webbrowser.open(f"https://www.tarotcardmeanings.net{new_url}", new=2)
         elif name.endswith("Wands"):
             url = list()
             html = urlopen(
@@ -57,7 +58,7 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.endswith("Wands").split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(url[int(corrspoding_num) - 1])
+            webbrowser.open(url[int(corrspoding_num) - 1], new=2)
 
         elif name.endswith("Swords"):
             url = list()
@@ -71,7 +72,8 @@ class Tarot:
             first_word = name.endswith("Swords").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
+                new=2,
             )
 
         elif name.endswith("Cups"):
@@ -86,7 +88,8 @@ class Tarot:
             first_word = name.endswith("Cups").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
+                new=2,
             )
 
         elif name.endswith("Pentacles"):
@@ -101,7 +104,8 @@ class Tarot:
             first_word = name.endswith("Pentacles").split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1]
+                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
+                new=2,
             )
 
     def num(self, label):
