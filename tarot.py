@@ -58,11 +58,8 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-<<<<<<< HEAD
             webbrowser.open(url[int(corrspoding_num) - 3],new=2)
-=======
-            webbrowser.open(url[int(corrspoding_num) - 1], new=2)
->>>>>>> 9a8bed8dbace139f14a4cb6382bd7e08c55067ed
+
 
         elif name.endswith("Swords"):
             url = list()
@@ -75,10 +72,8 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(
-<<<<<<< HEAD
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
-=======
+            webbrowser.open( "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2)
+
                 
 
         elif name.endswith("Cups"):
@@ -93,12 +88,8 @@ class Tarot:
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-<<<<<<< HEAD
                 "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
-=======
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
-                new=2,
->>>>>>> 9a8bed8dbace139f14a4cb6382bd7e08c55067ed
+
             )
 
         elif name.endswith("Pentacles"):
@@ -112,14 +103,8 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(
-<<<<<<< HEAD
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
-=======
-                "https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 1],
-                new=2,
->>>>>>> 9a8bed8dbace139f14a4cb6382bd7e08c55067ed
-            )
+            webbrowser.open("https://www.tarotcardmeanings.net/" + url[int(corrspoding_num) - 3],new=2
+ )
 
     def num(self, label):
         """Pairs the label of tarots card from the csv file and return the corresponding number
