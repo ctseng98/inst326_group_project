@@ -1,7 +1,9 @@
 import sys
 import matplotlib
 import numpy as np
+from numpy import *
 import matplotlib.pyplot as plt
+import math
 
 matplotlib.use("MacOSX")
 plt.ion()
@@ -10,15 +12,17 @@ import random
 from collections import Counter
 from argparse import ArgumentParser
 
+# from tarot import Tarot
+
 
 class Number:
     """This class takes care of the translation from input digits o corrsponding tarot card."""
 
-    def __init__(self, number=0, sentence=""):
+    def __init__(self, number=-1, sentence=""):
         """Initializes the input number and sentence
         modulus_stat (dict): A set that counts how many people got the same number from method translator()
         """
-        if number != 0:
+        if number != -1:
             self.number = int(number)
             self.sentence = sentence
         else:
@@ -29,7 +33,7 @@ class Number:
         self.alphabet_count = Counter()
         # print(self.sentence)
 
-    def translator(self, number=0):
+    def translator(self):
         """This method takes the 4 digit number and generates a corresponding number that hashes to a particular tarot card.
         Args:
             number (str): the number that the user inputs
@@ -38,14 +42,19 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        if number == 0:
-            trans = self.number % 78
-        else:
-            trans = number % 78
+        trans = self.number % 78
         # print(number)
         # trans = number % 78
         self.modulus_count.update([trans])
-        return trans
+        self.number = trans
+        t = linspace(0, 2 * math.pi, 400)
+        a = 16 * (sin(t) ** 3)
+        b = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t)
+        plt.plot(t, a, "r")  # plotting t, a separately
+        plt.plot(t, b, "r")  # plotting t, b separately
+        plt.savefig("figure.png")
+        plt.show()
+        return self.number
 
     def generator(self):
         """Generates a random 4 digit number based on the sentence that the user put in. (Use regex)
@@ -60,7 +69,9 @@ class Number:
         self.alphabet_count.update(tem)
         most_com = self.alphabet_count.most_common(1)[0][0]
         output = self.translator(random.randint(1, 300) * ord(most_com))
-        return int(output)
+        self.number = int(output)
+
+        return self.number
 
     def stat(self):
         """Returns the stat of previous users.
@@ -102,7 +113,7 @@ def parse_args(arglist):
         namespace: a string of a 4-digit integer.
     """
     parser = ArgumentParser()
-    parser.add_argument("--number", default=0, help="input number")
+    parser.add_argument("--number", default=-1, help="input number")
     parser.add_argument("--sentence", default="", help="input sentence")
     if parser is None:
         raise ValueError("Please input a sentence or a 4-digit number.")
@@ -113,7 +124,10 @@ def parse_args(arglist):
 if __name__ == "__main__":
     args = parse_args(sys.argv[1:])
     if args.number:
-        Number(number=args.number)
+        result_1 = Number(number=args.number)
+        # Tarot(result_1.translator())
+        result_1.translator()
     elif args.sentence:
-        result = Number(sentence=args.sentence)
-    result.stat()
+        result_2 = Number(sentence=args.sentence)
+        # Tarot(result_2.generator())
+        result_2.stat()
