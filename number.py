@@ -48,7 +48,7 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        trans = random.randint(0, int(number)) % 78
+        trans = random.randint(0, 1000) * int(number) % 78
         if self.boo == 0:
             t = np.linspace(0, 2 * math.pi, 400)
             x = 16 * (np.sin(t) ** 3)
