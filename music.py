@@ -10,6 +10,16 @@ import feedparser
 
 
 class Music:
+    
+    """ generates a video and automatically opens picture of tarot card in browser
+    
+    Attributes:
+        url (set): url links to different videos
+        tarot (int): a number that is between 0 and 14 that corresponds to a card
+        
+    """
+    
+    
     def __init__(self, url, tarot):
         """Initializes a set of YouTube music by reading a csv file containing the urls.
         Args:
@@ -24,7 +34,7 @@ class Music:
     def get_links(self):
         """Returns a list of string url
         Returns:
-            A list of links.
+            A list of links to different videos
         """
         output = []
         for i in self.feed.entries:
@@ -33,9 +43,9 @@ class Music:
         return output
 
     def play(self):
-        """automatically plays the youtube video
+        """ automatically opens a browser with chosen card
         Returns:
-            plays youtube video that was generated.
+            a browser with the chosen card from the tarot class
         """
         dict_links = self.get_links()
         chosen_card_link = dict_links[self.tarot]

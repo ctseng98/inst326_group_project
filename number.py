@@ -19,7 +19,7 @@ from music import Music
 
 
 class Number:
-    """This class takes care of the translation from input digits o corrsponding tarot card."""
+    """This class takes care of the translation from input digits to corresponding tarot card."""
 
     def __init__(self, number=-1, sentence=""):
         """Initializes the input number and sentence
