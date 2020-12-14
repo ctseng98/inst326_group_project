@@ -27,7 +27,7 @@ class Tarot:
             
         """
 
-        select_card = self.tarot.iloc[number-1].to_dict()
+        select_card = self.tarot.iloc[number].to_dict()
 
         return select_card
 
