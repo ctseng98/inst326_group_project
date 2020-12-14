@@ -51,6 +51,7 @@ class Tarot:
             images = bs.find("img", {"src": re.compile("/images/tarotcards/")})
             new_url = images["src"]
             webbrowser.open(f"https://www.tarotcardmeanings.net{new_url}", new=2)
+            return new_url
         elif name.endswith("Wands"):
             url = list()
             html = urlopen(
@@ -62,7 +63,9 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(url[corrspoding_num - 1], new=2)
+            webbrowser.open("https://www.tarotcardmeanings.net/" +url[corrspoding_num - 1], new=2)
+            return url[corrspoding_num - 1]
+            
 
         elif name.endswith("Swords"):
             url = list()
@@ -79,6 +82,7 @@ class Tarot:
                 "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
+            return url[corrspoding_num - 1]
 
         elif name.endswith("Cups"):
             url = list()
@@ -95,6 +99,7 @@ class Tarot:
                 "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
+            return url[corrspoding_num - 1]
 
         elif name.endswith("Pentacles"):
             url = list()
@@ -111,6 +116,7 @@ class Tarot:
                 "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
+            return url[corrspoding_num - 1]
 
     def num(self, label):
         """Pairs the label of tarots card from the csv file and return the corresponding number
