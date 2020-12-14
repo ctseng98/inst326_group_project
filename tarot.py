@@ -7,12 +7,19 @@ import sys
 
 
 class Tarot:
+    """ find the corresponding tarot card for a two-digits number and open the corresponding link for the tarot card pictures
+    
+    Attributes:
+        numebr -- int: a two digits number return by Number class, used to corresponding to a tarot card
+        label -- str: the label of tarots card, such as ace, king
+        
+    """
     def __init__(self, number):
         """
         Initializes a set tarot cards by reading a csv file that contains a list of tarot cards' infomation, such as names, links and meanings.
         Args:
             tarot -- dictionary, a dictionary with the name of each tarot card infomation (name, links, meaning) as values.
-            number -- a int, return by Number class, used to corresponding to a tarot card
+            
         """
         self.tarot = pd.read_csv("T.csv")
         self.number = number
