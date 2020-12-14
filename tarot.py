@@ -9,9 +9,10 @@ import sys
 class Tarot:
     def __init__(self, number):
         """
-        Initializes a set tarot cards by reading a csv file that contains a list of tarot cards.
+        Initializes a set tarot cards by reading a csv file that contains a list of tarot cards' infomation, such as names, links and meanings.
         Args:
-            tarot (set): A dictionary with the name of each tarot card as values.
+            tarot -- dictionary, a dictionary with the name of each tarot card infomation (name, links, meaning) as values.
+            number -- a int, return by Number class, used to corresponding to a tarot card
         """
         self.tarot = pd.read_csv("T.csv")
         self.number = number
@@ -19,9 +20,11 @@ class Tarot:
     def pairing(self, number):
         """Pairs the number from Number class to a corresponding tarot card
         Args:
-            number (int): the integer output from translator() in Number class.
+            number -- int,  the integer returned by translator method  in Number class.
+            select_card -- dict, contains the corresponding tarot card infomation from the dataframe read from the csv file
         Returns:
-            A tarot card (str).
+        select_card
+            
         """
 
         select_card = self.tarot.iloc[number].to_dict()
@@ -29,10 +32,13 @@ class Tarot:
         return select_card
 
     def image(self, number):
-        """Pairs the number from Number class to a corresponding tarot card and lead to a link displying the card image
+        """Pairs the number from Number class to a corresponding tarot card and open  a link by broswer to disply the corresponding card image
         Args:
-            number (int): the integer output from translator() in Number class.
-        Returns:
+            number-- int,the integer returned by translator method  in Number class.
+            name -- str, the name of the corresponding tarot card 
+            url -- str, the url of the correspondingtarot card 
+            images --  str, the encryption information of corresponding picture stored in the website
+        
 
         """
 
@@ -109,9 +115,9 @@ class Tarot:
     def num(self, label):
         """Pairs the label of tarots card from the csv file and return the corresponding number
         Args:
-            label (str): the label of tarots card
+            label -- str: the label of tarots card, such as ace, king 
         Returns:
-            corresponding number
+            corresponding number of card label
         """
         self.label = label
         if label == "Ace":
