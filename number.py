@@ -8,40 +8,47 @@ from collections import Counter
 
 
 class Number:
-    """This class takes care of the translation from input digits o corrsponding tarot card."""
+    """This class takes care of the translation from input digits o corrsponding tarot card.
+    Attributes:
+        number (int): A four-digit number input.
+        sentence (str): A sentence input.
+        alphabet_array (string array): An np array that stores the unique alphabet appeared in the sentence input.
+        alphabet_count (dict): A counter object that keep tracks of the frequency of the alphabets appeared.
+    """
 
-    def __init__(self, number=-1, sentence=""):
-        """Initializes the input number and sentence
-        modulus_stat (dict): A set that counts how many people got the same number from method translator()
+    def __init__(self, number=-1, sentence="", boo=False):
+        """Initializes the input number and sentence into lowercase letters.
+        Args:
+            alphabet_array (string array): An np array that stores the unique alphabet appeared in the sentence input.
+            alphabet_count (dict): A counter object that keep tracks of the frequency of the alphabets appeared.
         """
         if number != -1:
-            self.number = number
             self.sentence = sentence
         else:
             self.sentence = sentence.lower()
-            self.number = number
-        self.modulus_count = Counter()
+        self.boo = boo  # For testing purposes
+        self.number = number
         self.alphabet_array = np.array([])
         self.alphabet_count = Counter()
         # print(self.sentence)
 
-    def translator(self, number):
-        """This method takes the 4 digit number and generates a corresponding number that hashes to a particular tarot card.
-        Args:
-            number (str): the number that the user inputs
+    def meaning_color_tb(self):
+        """Random sample color.csv and left join meaning.csv with color.csv according to their id.
         Returns:
-            An integer that links to a tarot card.
-            A png file of a pattern that is created by the input 4-digit number.
-        Raises:
-            ValueError: If user inputs alphabetical letters or not enough digits.
+            new_df (DataFrame): A new dataframe that only contains the colummns label, Englsih, HEX, description,
+            description_endroit, description_envers.
+        Note:
+            The return value should have 78 rows.
+            For testing purposes, if self.boo = True, then the function won't take a random sample.
         """
         df_meaning = pd.read_csv("meaning.csv")
         df_color = pd.read_csv("color.csv")
-        df_color = df_color.sample(frac=1).reset_index(drop=True)
+        if self.boo == False:
+            df_color = df_color.sample(frac=1).reset_index(drop=True)
+
         new_df = pd.merge(df_meaning, df_color, how="left", on="id").reset_index(
             drop=True
         )
-        print(len(new_df))
         new_df = new_df[
             [
                 "label",
@@ -52,7 +59,24 @@ class Number:
                 "description_envers",
             ]
         ]
-        trans = (random.randint(0, 1000) * int(number)) % 78
+        return new_df
+
+    def translator(self, number):
+        """This method takes in the 4 digit number and generates a corresponding number that hashes to a particular tarot card.
+        Args:
+            number (int): The number that the user inputs
+            boo (boolean): For testing purposes, I need to be able to predict the output number (i.e. trans), so if boo
+            is True, the random.randint(0, 1000) would be taken out.
+        Returns:
+            trans (int): An integer of modulo 78 that links to a tarot card.
+            A png file of a heart shape that is colored with your signature color.
+        """
+        new_df = self.meaning_color_tb()
+        if self.boo == True:
+            trans = int(number) % 78
+        else:
+            trans = (random.randint(0, 1000) * int(number)) % 78
+
         t = np.linspace(0, 2 * math.pi, 400)
         x = 16 * (np.sin(t) ** 3)
         y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
@@ -60,7 +84,7 @@ class Number:
         your_color_code = new_df.iat[trans, 2]
         your_color_name = new_df.iat[trans, 1]
         your_meaning = new_df.iloc[[trans], [0, 3, 4, 5]]
-        print(trans)
+        # print(trans)
         plt.fill_between(x, y, color=str(your_color_code))
         plt.savefig("your_color.png")
         print(f"Your signature color is {your_color_name}")
@@ -70,27 +94,30 @@ class Number:
         return trans
 
     def generator(self):
-        """Generates a random 4 digit number based on the sentence that the user put in. (Use regex)
-        Args:
-            sentence (str): A sentence that has a minimum of 4 characters and maximum of 20 characters.
+        """Generates a random 4 digit number based on the sentence that the user put in by identifying the ASCII
+        code of the most common letter.
         Returns:
-            A string of integers.
+            output (int): An integer (e.g. 97 for 'a') of the most common letter in the input sentence.
+        Note:
+            This function disregards any non-alphabet character (i.e. no spaces, puncuations, etc.).
         """
-        # print(type(self.modulus_count))
         tem = [i for i in self.sentence if i != " " and i.isalpha()]
-        # print(tem)
         self.alphabet_count.update(tem)
-        most_com = self.alphabet_count.most_common(1)[0][0]
+
+        tem_dict = sorted(
+            self.alphabet_count.items(), key=lambda x: (x[1], x[0]), reverse=True
+        )
+        # print(tem_dict)
+        most_com = tem_dict[0][0]
+
         output = self.translator(ord(most_com))
 
         return int(output)
 
     def stat(self):
-        """Returns the stat of previous users.
-        Args:
-            hash (int)
+        """Returns a histogram that shows the frequency of each letter in the input sentence.
         Returns:
-            A histogram (?)
+            A histogram plot.
         """
         url_num = self.generator()
         # print(self.alphabet_count)

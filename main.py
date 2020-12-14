@@ -11,7 +11,7 @@ def parse_args(arglist):
     The following optional command-line arguments are defined:
 
     -n / --number: the 4-digit number that the user chooses.
-    -s / --sentence: A sentence with a maximum of 50 characters.
+    -s / --sentence: A sentence with no maximum characters.
     Args:
         arglist (list of str): a list of command-line arguments.
 
@@ -19,8 +19,8 @@ def parse_args(arglist):
         namespace: a string of a 4-digit integer.
     """
     parser = ArgumentParser()
-    parser.add_argument("--number", default=-1, help="input number")
-    parser.add_argument("--sentence", default="", help="input sentence")
+    parser.add_argument("-n", "--number", default=-1, help="input number")
+    parser.add_argument("-s", "--sentence", default="", help="input sentence")
     if parser is None:
         raise ValueError("Please input a sentence or a 4-digit number.")
     args = parser.parse_args(arglist)
