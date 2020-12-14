@@ -41,7 +41,7 @@ if __name__ == "__main__":
     else:
         result_2 = Number(sentence=args.sentence)
         url_num = result_2.stat()
-        print(url_num)
+        # print(url_num)
         t_2 = Tarot(number=url_num)
         t_2.image(number=url_num)
         music = Music(
