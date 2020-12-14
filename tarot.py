@@ -5,8 +5,6 @@ import re
 import webbrowser
 import sys
 
-from argparse import ArgumentParser
-
 
 class Tarot:
     def __init__(self, number):

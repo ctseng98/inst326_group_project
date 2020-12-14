@@ -1,25 +1,14 @@
 import sys
-import matplotlib
 import numpy as np
-from numpy import *
 import matplotlib.pyplot as plt
 import math
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-import webbrowser
-import re
-
+import pandas as pd
 import random
 from collections import Counter
-from argparse import ArgumentParser
-
-
-from tarot import Tarot
-from music import Music
 
 
 class Number:
-    """This class takes care of the translation from input digits to corresponding tarot card."""
+    """This class takes care of the translation from input digits o corrsponding tarot card."""
 
     def __init__(self, number=-1, sentence=""):
         """Initializes the input number and sentence
@@ -28,11 +17,9 @@ class Number:
         if number != -1:
             self.number = number
             self.sentence = sentence
-            self.boo = 0
         else:
             self.sentence = sentence.lower()
             self.number = number
-            self.boo = -1  # keep track of sentence or digit input
         self.modulus_count = Counter()
         self.alphabet_array = np.array([])
         self.alphabet_count = Counter()
@@ -48,45 +35,38 @@ class Number:
         Raises:
             ValueError: If user inputs alphabetical letters or not enough digits.
         """
-        trans = random.randint(0, 1000) * int(number) % 78
-        if self.boo == 0:
-            t = np.linspace(0, 2 * math.pi, 400)
-            x = 16 * (np.sin(t) ** 3)
-            y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
-            plt.plot(x, y)
-            plt.savefig("figure_digit.png")
-            # plt.show()
-        else:
-
-            # print(number)
-            # trans = number % 78
-            self.modulus_count.update([trans])
-
-            from matplotlib.patches import Ellipse
-
-            NUM = 250
-
-            ells = [
-                Ellipse(
-                    xy=np.random.rand(2) * (100 % trans),
-                    width=np.random.rand(),
-                    height=np.random.rand(),
-                    angle=np.random.rand() * (360 % trans),
-                )
-                for i in range(NUM)
+        df_meaning = pd.read_csv("meaning.csv")
+        df_color = pd.read_csv("color.csv")
+        df_color = df_color.sample(frac=1).reset_index(drop=True)
+        new_df = pd.merge(df_meaning, df_color, how="left", on="id").reset_index(
+            drop=True
+        )
+        print(len(new_df))
+        new_df = new_df[
+            [
+                "label",
+                "English",
+                "HEX",
+                "description",
+                "description_endroit",
+                "description_envers",
             ]
-
-            fig, ax = plt.subplots(subplot_kw={"aspect": "equal"})
-            for e in ells:
-                ax.add_artist(e)
-                e.set_clip_box(ax.bbox)
-                e.set_alpha(np.random.rand())
-                e.set_facecolor(np.random.rand(3))
-
-            ax.set_xlim(0, 10)
-            ax.set_ylim(0, 10)
-            plt.savefig("figure_digit.png")
-            # plt.show()
+        ]
+        trans = (random.randint(0, 1000) * int(number)) % 78
+        t = np.linspace(0, 2 * math.pi, 400)
+        x = 16 * (np.sin(t) ** 3)
+        y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
+        plt.plot(x, y)
+        your_color_code = new_df.iat[trans, 2]
+        your_color_name = new_df.iat[trans, 1]
+        your_meaning = new_df.iloc[[trans], [0, 3, 4, 5]]
+        print(trans)
+        plt.fill_between(x, y, color=str(your_color_code))
+        plt.savefig("your_color.png")
+        print(f"Your signature color is {your_color_name}")
+        print(your_meaning.T)
+        # plt.show()
+        # plt.close()
         return trans
 
     def generator(self):
@@ -101,7 +81,7 @@ class Number:
         # print(tem)
         self.alphabet_count.update(tem)
         most_com = self.alphabet_count.most_common(1)[0][0]
-        output = self.translator(random.randint(1, 300) * ord(most_com))
+        output = self.translator(ord(most_com))
 
         return int(output)
 
@@ -112,7 +92,7 @@ class Number:
         Returns:
             A histogram (?)
         """
-        self.generator()
+        url_num = self.generator()
         # print(self.alphabet_count)
         letters = np.array([i for i in self.alphabet_count.keys()])
         freq = np.array([i for i in self.alphabet_count.values()])
@@ -127,53 +107,6 @@ class Number:
         plt.ylabel("Frequency")
         ax.set_xticks(range(0, x_bin))
         ax.set_xticklabels(letters)
-        plt.savefig("figure_sentence.png")
+        plt.savefig("letter_frequency.png")
         # plt.show()
-
-
-def parse_args(arglist):
-    """Parses command-line arguments.
-
-    The following optional command-line arguments are defined:
-
-    -n / --number: the 4-digit number that the user chooses.
-    -s / --sentence: A sentence with a maximum of 50 characters.
-    Args:
-        arglist (list of str): a list of command-line arguments.
-
-    Returns:
-        namespace: a string of a 4-digit integer.
-    """
-    parser = ArgumentParser()
-    parser.add_argument("--number", default=-1, help="input number")
-    parser.add_argument("--sentence", default="", help="input sentence")
-    if parser is None:
-        raise ValueError("Please input a sentence or a 4-digit number.")
-    args = parser.parse_args(arglist)
-    return args
-
-
-if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
-    if args.number != -1:
-        result_1 = Number(number=args.number)
-        # print(result_1.translator())
-        translated_num = result_1.translator(number=args.number)
-        t_1 = Tarot(number=translated_num)
-        t_1.image(number=translated_num)
-
-        music = Music(
-            url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
-            tarot=translated_num % 15,
-        )
-    else:
-        result_2 = Number(sentence=args.sentence)
-        generated_num = result_2.generator()
-        t_2 = Tarot(number=generated_num)
-        t_2.image(number=generated_num)
-        result_2.stat()
-        music = Music(
-            url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
-            tarot=generated_num % 15,
-        )
-    music.play()
+        return url_num
