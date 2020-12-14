@@ -27,7 +27,7 @@ class Tarot:
             
         """
 
-        select_card = self.tarot.iloc[number].to_dict()
+        select_card = self.tarot.iloc[number-1].to_dict()
 
         return select_card
 
@@ -62,7 +62,7 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open(url[corrspoding_num - 3], new=2)
+            webbrowser.open(url[corrspoding_num - 1], new=2)
 
         elif name.endswith("Swords"):
             url = list()
@@ -76,7 +76,7 @@ class Tarot:
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 3],
+                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
 
@@ -92,7 +92,7 @@ class Tarot:
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 3],
+                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
 
@@ -108,7 +108,7 @@ class Tarot:
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
             webbrowser.open(
-                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 3],
+                "https://www.tarotcardmeanings.net/" + url[corrspoding_num - 1],
                 new=2,
             )
 
