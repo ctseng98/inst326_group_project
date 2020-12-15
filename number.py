@@ -8,15 +8,16 @@ from collections import Counter
 
 
 class Number:
-    """This class takes care of the translation from input digits o corrsponding tarot card.
+    """This class takes care of the translation from input digits/sentence to the corrsponding tarot card.
     Attributes:
         number (int): A four-digit number input.
         sentence (str): A sentence input.
+        test_mode (boolean): If the value is True, then the functions will omit any randomized proccess.
         alphabet_array (string array): An np array that stores the unique alphabet appeared in the sentence input.
         alphabet_count (dict): A counter object that keep tracks of the frequency of the alphabets appeared.
     """
 
-    def __init__(self, number=-1, sentence="", boo=False):
+    def __init__(self, number=-1, sentence="", test_mode=False):
         """Initializes the input number and sentence into lowercase letters.
         Args:
             alphabet_array (string array): An np array that stores the unique alphabet appeared in the sentence input.
@@ -26,7 +27,7 @@ class Number:
             self.sentence = sentence
         else:
             self.sentence = sentence.lower()
-        self.boo = boo  # For testing purposes
+        self.test_mode = test_mode  # For testing purposes
         self.number = number
         self.alphabet_array = np.array([])
         self.alphabet_count = Counter()
@@ -39,11 +40,11 @@ class Number:
             description_endroit, description_envers.
         Note:
             The return value should have 78 rows.
-            For testing purposes, if self.boo = True, then the function won't take a random sample.
+            For testing purposes, if self.test_mode = True, then the function won't take a random sample.
         """
         df_meaning = pd.read_csv("meaning.csv")
         df_color = pd.read_csv("color.csv")
-        if self.boo == False:
+        if self.test_mode == False:
             df_color = df_color.sample(frac=1).reset_index(drop=True)
 
         new_df = pd.merge(df_meaning, df_color, how="left", on="id").reset_index(
@@ -69,10 +70,11 @@ class Number:
             is True, the random.randint(0, 1000) would be taken out.
         Returns:
             trans (int): An integer of modulo 78 that links to a tarot card.
-            A png file of a heart shape that is colored with your signature color.
+        Side effect:
+            your_color (png): A png file of a heart shape that is colored with your signature color.
         """
         new_df = self.meaning_color_tb()
-        if self.boo == True:
+        if self.test_mode == True:
             trans = int(number) % 78
         else:
             trans = (random.randint(0, 1000) * int(number)) % 78
@@ -115,9 +117,11 @@ class Number:
         return int(output)
 
     def stat(self):
-        """Returns a histogram that shows the frequency of each letter in the input sentence.
+        """Creates a histogram that shows the frequency of each letter in the input sentence.
         Returns:
-            A histogram plot.
+            url_num (int): A number that is later passed into the Music class to retrieve the associated YouTube link.
+        Side effect:
+            letter_frequency (png): A histogram plot of the frequency of each alphabet appeared in the input sentence.
         """
         url_num = self.generator()
         # print(self.alphabet_count)
