@@ -7,18 +7,22 @@ import sys
 
 
 class Tarot:
-    """ find the corresponding tarot card for a two-digits number and open the corresponding link for the tarot card pictures
+    """ find the corresponding tarot card for a two-digits number and open 
+    the corresponding link for the tarot card pictures
     
     Attributes:
-        numebr -- int: a two digits number return by Number class, used to corresponding to a tarot card
+        numebr -- int: a two digits number return by Number class, used to 
+        corresponding to a tarot card
         label -- str: the label of tarots card, such as ace, king
         
     """
     def __init__(self, number):
         """
-        Initializes a set tarot cards by reading a csv file that contains a list of tarot cards' infomation, such as names, links and meanings.
+        Initializes a set tarot cards by reading a csv file that contains a 
+        list of tarot cards' infomation, such as names, links and meanings.
         Args:
-            tarot -- dictionary, a dictionary with the name of each tarot card infomation (name, links, meaning) as values.
+            tarot -- dictionary, a dictionary with the name of each tarot card 
+            infomation (name, links, meaning) as values.
             
         """
         self.tarot = pd.read_csv("T.csv")
@@ -28,7 +32,8 @@ class Tarot:
         """Pairs the number from Number class to a corresponding tarot card
         Args:
             number -- int,  the integer returned by translator method  in Number class.
-            select_card -- dict, contains the corresponding tarot card infomation from the dataframe read from the csv file
+            select_card -- dict, contains the corresponding tarot card infomation 
+            from the dataframe read from the csv file
         Returns:
         select_card
             
@@ -39,12 +44,16 @@ class Tarot:
         return select_card
 
     def image(self, number):
-        """Pairs the number from Number class to a corresponding tarot card and open  a link by broswer to disply the corresponding card image
+        """Pairs the number from Number class to a corresponding tarot card 
+        and open  a link by broswer to disply the corresponding card image 
         Args:
             number-- int,the integer returned by translator method  in Number class.
             name -- str, the name of the corresponding tarot card 
             url -- str, the url of the correspondingtarot card 
-            images --  str, the encryption information of corresponding picture stored in the website
+            images --  str, the encryption information of corresponding picture 
+            stored in the website
+        Side effect:
+             It will open a window on broswer and lead to the corresponding webpage
         
 
         """
@@ -70,7 +79,8 @@ class Tarot:
                 url.append(image["src"])
             first_word = name.split()[0]
             corrspoding_num = self.num(first_word)
-            webbrowser.open("https://www.tarotcardmeanings.net/" +url[corrspoding_num - 1], new=2)
+            webbrowser.open("https://www.tarotcardmeanings.net/" 
+                            +url[corrspoding_num - 1], new=2)
             return url[corrspoding_num - 1]
             
 
@@ -126,7 +136,8 @@ class Tarot:
             return url[corrspoding_num - 1]
 
     def num(self, label):
-        """Pairs the label of tarots card from the csv file and return the corresponding number
+        """Pairs the label of tarots card from the csv file and return 
+        the corresponding number
         Args:
             label -- str: the label of tarots card, such as ace, king 
         Returns:
