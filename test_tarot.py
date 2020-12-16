@@ -3,6 +3,9 @@ from tarot import Tarot
 
 
 def test_image():
+    """Diffentce sets of tarot cards(EG. Wand ,Swords, Cup) come with differnt URL prefixes, thus, I 
+    use the first  and last card from each set of tarot card as eage to do the test
+    """
     "this is for happy path"
     C=Tarot(1)
     assert C.image(5) == '/images/tarotcards/tarot-hierophant.jpg'
