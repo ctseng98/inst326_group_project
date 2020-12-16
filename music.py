@@ -16,6 +16,7 @@ class Music:
     Attributes:
         url (set): url links to different videos
         tarot (int): a number that is between 0 and 14 that corresponds to a card
+        feed: parses the url using feedparser  
         
     """
     
@@ -46,6 +47,8 @@ class Music:
         """ automatically opens a browser with chosen card
         Returns:
             a browser with the chosen card from the tarot class
+        Side Effects:
+            opens web browser after you have run the code
         """
         dict_links = self.get_links()
         chosen_card_link = dict_links[self.tarot]
