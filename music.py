@@ -47,6 +47,7 @@ class Music:
         """ automatically opens a browser with chosen card
         Returns:
             a browser with the chosen card from the tarot class
+            chosen_card_link -- str, corrsponding link for a specific tarot card
         Side Effects:
             opens web browser after you have run the code
         """
