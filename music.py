@@ -56,3 +56,5 @@ class Music:
             chosen_card_link,
             new=2,
         )
+        return chosen_card_link
+        
