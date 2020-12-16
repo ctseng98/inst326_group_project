@@ -20,4 +20,13 @@ def test_image():
     assert C.image(51)=='/images/tarotcards120px/tarot-swords-13.jpg'
     assert C.image(77) == '/images/tarotcards120px/tarot-pentacles-10.jpg'
     
+
+
+def test_num():
+     x = Tarot(1)
+     
+     assert x.num(label = "Ace") == 1
+     assert x.num(label = "Page") == 11
+     assert x.num(label = "King") == 14
+     assert x.num(label = "Ten") == 10   
     
