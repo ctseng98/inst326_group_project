@@ -32,4 +32,5 @@ def test_num():
      assert x.num(label = "Page") == 11
      assert x.num(label = "King") == 14
      assert x.num(label = "Ten") == 10   
-    
+     assert x.num("Six") == 6
+     assert x.num("Two") == 2
