@@ -36,7 +36,7 @@ if __name__ == "__main__":
         t_1.image(number=translated_num)
         music = Music(
             url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
-            tarot=translated_num % 15,
+            tarot=translated_num,
         )
     else:
         result_2 = Number(sentence=args.sentence)
@@ -46,6 +46,6 @@ if __name__ == "__main__":
         t_2.image(number=url_num)
         music = Music(
             url="https://www.youtube.com/feeds/videos.xml?playlist_id=PLYyWwMzPI75TID--pLfPUJRjGIQJckSsL",
-            tarot=url_num % 15,
+            tarot=url_num,
         )
     music.play()
